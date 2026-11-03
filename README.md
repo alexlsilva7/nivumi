@@ -63,7 +63,7 @@ Tarefas, lembretes e calendário, acessíveis no mesmo lugar.
 
 ### Um lugar para guardar
 
-A Prateleira recebe arquivos, links, textos e capturas. Arraste para dentro, selecione e leve para outro aplicativo.
+A Prateleira recebe arquivos e imagens de capturas de tela. Arraste arquivos para dentro ou cole uma captura com **Ctrl + V**; depois, selecione e leve para outro aplicativo.
 
 **Também por perto**
 
