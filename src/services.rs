@@ -111,7 +111,6 @@ pub enum ServiceEvent {
     LetrasFinished {
         key: String,
     },
-    ExternalLyrics(ExternalLyrics),
     LetrasLyrics {
         key: String,
         lyrics: ExternalLyrics,
@@ -128,12 +127,8 @@ impl ServiceHandle {
         let (tx, commands) = mpsc::channel();
         let (events, rx) = mpsc::channel();
         let callback_tx = tx.clone();
-        let current_media = Arc::new(Mutex::new(MediaSnapshot::default()));
-        let server_media = current_media.clone();
-        let server_events = events.clone();
-        crate::local_server::start(server_media, server_events);
         thread::spawn(move || {
-            if let Err(e) = worker(commands, events.clone(), callback_tx, current_media) {
+            if let Err(e) = worker(commands, events.clone(), callback_tx) {
                 let _ = events.send(ServiceEvent::Error(e.to_string()));
             }
         });
@@ -271,7 +266,6 @@ fn worker(
     commands: Receiver<ServiceCommand>,
     events: Sender<ServiceEvent>,
     callback_tx: Sender<ServiceCommand>,
-    current_media: Arc<Mutex<MediaSnapshot>>,
 ) -> windows::core::Result<()> {
     // Declared first so COM interface locals are dropped before RoUninitialize.
     let _apartment = Apartment::mta()?;
@@ -339,9 +333,6 @@ fn worker(
                 .unwrap_or_default();
             if snapshot != previous {
                 previous = snapshot.clone();
-                if let Ok(mut m) = current_media.lock() {
-                    *m = snapshot.clone();
-                }
                 if events.send(ServiceEvent::Media(snapshot)).is_err() {
                     break;
                 }

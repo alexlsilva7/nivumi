@@ -77,7 +77,6 @@ A Prateleira recebe arquivos e imagens de capturas de tela. Arraste arquivos par
 
 - Letras em leitor separado ou legenda flutuante.
 - Tradução offline opcional de inglês para português brasileiro.
-- Extensão **Nivumi Lyrics Bridge** para trazer letras do navegador.
 - Ícones próprios no Windows e modo portátil.
 
 </td>

@@ -5,7 +5,6 @@ pub mod clipboard_image;
 pub mod dialogs;
 pub mod fullscreen;
 pub mod letras;
-pub mod local_server;
 pub mod lyrics;
 pub mod lyrics_view;
 pub mod lyrics_window;

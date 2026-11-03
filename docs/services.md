@@ -20,7 +20,6 @@ O evento `Lyrics {key,text,error}` contém a chave original e `text` inclui o te
 
 `FetchLetrasLyrics` roda em outro worker. Seus eventos `LetrasLyrics {key,lyrics}` usam título/artista originais e são descartados após troca de faixa. A tradução continua vindo do Letras: somente os contêineres de tradução são lidos, sem recolher versos do original nem parágrafos do restante da página. A mesclagem preserva original/tradução do Letras quando chega LRC do Lyricsify, em qualquer ordem. O alinhamento da tradução permanece por sequência de versos não vazios; versões com cortes, versos adicionais ou diferente divisão podem exigir ajuste.
 
-A ponte local na porta 48123 lê o corpo inteiro conforme `Content-Length`, mesmo quando os pacotes TCP fragmentam cabeçalhos, UTF-8 ou letras maiores que 8 KiB. Há limites de 16 KiB para cabeçalhos e 1 MiB para corpo. A UI compara os metadados das importações com a faixa atual para evitar aplicar outra música. A extensão deve ser recarregada após atualizar seus arquivos.
 
 ## Sistema
 

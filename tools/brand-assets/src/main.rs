@@ -53,12 +53,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         );
         let png = raster(&tile, size)?;
         fs::write(brand.join(format!("icon-{size}.png")), &png)?;
-        if [16, 48, 128].contains(&size) {
-            fs::write(
-                root.join(format!("chrome-extension/icons/icon{size}.png")),
-                &png,
-            )?;
-        }
         app.push((size, png));
         tray.push((size, raster(source, size)?));
         if size == 256 {

@@ -8,9 +8,9 @@ Monograma geométrico original baseado na direção visual aprovada: n branco co
 - `icon.svg`: aplicação sobre placa preta de cantos arredondados.
 - `app.ico`: ícone do executável, janelas e atalhos, com placa preta.
 - `tray.ico`: símbolo transparente para a área de notificação.
-- `icon-{size}.png`: versões raster para uso em ferramentas e extensão.
+- `icon-{size}.png`: versões raster para uso em ferramentas.
 
-Os ICOs contêm 16, 20, 24, 32, 40, 48, 64, 128 e 256 px, com quadros PNG RGBA de 32 bits. As versões 16, 48 e 128 px também são copiadas para a extensão pelo gerador.
+Os ICOs contêm 16, 20, 24, 32, 40, 48, 64, 128 e 256 px, com quadros PNG RGBA de 32 bits.
 
 Regenerar a partir da raiz:
 

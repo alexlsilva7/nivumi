@@ -2,6 +2,10 @@
 
 Data: 02/11/2026. Branch: `codex/nivumi-identidade-visual`. Versões mantidas: app 0.2.0, extensão 1.2.1.
 
+## Remoção da extensão
+
+A extensão de navegador foi retirada do projeto, junto com o servidor HTTP local e a porta 48123. A busca nativa de letras e traduções permanece. As referências à extensão abaixo são registros históricos da implementação anterior.
+
 ## Atualização: cores clássicas
 
 Por solicitação posterior, a interface voltou às cores anteriores: notch preto, textos brancos, tarefas verdes, hidratação e tradução ativa azuis, calendário azul e pomodoro vermelho com pausas verdes. Configurações e extensão recuperaram suas cores anteriores. O nome Nivumi, a ausência de mascote e a geometria do monograma foram preservados; a logo e todos os ícones agora usam branco com recorte verde sobre preto. Os fundos das capas continuam dinâmicos.

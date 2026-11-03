@@ -824,19 +824,6 @@ impl App {
                         self.letras_done = true;
                     }
                 }
-                ServiceEvent::ExternalLyrics(ext) => {
-                    if self.media.title.is_empty()
-                        || nivumi::synced_lyrics::same_song(
-                            &self.media.title,
-                            &self.media.artist,
-                            &ext.title,
-                            &ext.artist,
-                        )
-                    {
-                        self.receive_external_lyrics(ext);
-                        dirty = true;
-                    }
-                }
                 ServiceEvent::Lyrics { key, text, error } => {
                     if key == self.media.key() {
                         let had_sync = !self.lyric_lines.is_empty();
