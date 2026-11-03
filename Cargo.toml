@@ -1,0 +1,38 @@
+[package]
+name = "nivumi"
+version = "0.2.0"
+edition = "2021"
+description = "Native Windows notch companion"
+
+[dependencies]
+ort = { version = "=2.0.0-rc.15", default-features = false, features = ["std", "load-dynamic", "api-31"] }
+sentencepiece-rs = "0.2.2"
+sha2 = "0.10"
+whatlang = "0.18"
+ureq = { version = "3", default-features = false, features = ["native-tls"] }
+zip = { version = "6", default-features = false, features = ["deflate"] }
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+windows-numerics = "0.3.1"
+windows-core = "0.62.2"
+windows-future = "0.3.2"
+windows = { version = "=0.62.2", features = [
+ "Win32_System_Threading", "Win32_System_Wmi", "Devices_Bluetooth", "Devices_Enumeration", "Foundation", "Foundation_Collections", "Media_Control", "Storage_Streams", "Web_Http", "Web_Http_Headers", "Networking_Connectivity",
+ "Win32_UI_Controls", "Win32_UI_Controls_RichEdit", "Win32_Graphics_Dwm", "Win32_Foundation", "Win32_System_DataExchange", "Win32_System_Com", "Win32_System_WinRT", "Win32_Media_Audio", "Win32_Media_Audio_Endpoints", "Win32_Media_Multimedia", "Win32_System_Power", "Win32_System_Registry", "Win32_UI_WindowsAndMessaging", "Win32_UI_Input_KeyboardAndMouse", "Win32_Graphics_Gdi", "Win32_UI_Shell", "Win32_UI_Shell_Common", "Win32_System_Ole", "Win32_System_Memory", "Win32_System_Com_StructuredStorage", "Win32_System_SystemServices", "Win32_System_LibraryLoader", "Win32_Graphics_Direct2D", "Win32_Graphics_Direct2D_Common", "Win32_Graphics_DirectWrite", "Win32_Graphics_Direct3D", "Win32_Graphics_Direct3D11", "Win32_Graphics_Dxgi", "Win32_Graphics_Dxgi_Common", "Win32_Graphics_DirectComposition", "Win32_Graphics_Imaging", "Win32_UI_HiDpi", "Win32_UI_Accessibility", "Win32_System_Variant", "Win32_Security"
+] }
+scraper = { version = "0.29.0", default-features = false }
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = "debuginfo"
+
+
+
+
+
+
+[build-dependencies]
+embed-resource = "=3.0.11"

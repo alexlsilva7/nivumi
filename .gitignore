@@ -1,0 +1,20 @@
+/target/
+/dist/
+/analysis/tools/
+/analysis/extracted/
+/analysis/reference-profile/
+*.tmp
+
+
+# Local verification artifacts and runtime profiles
+/analysis/installer-verification/
+/analysis/motion-preview-profile/
+*.exe
+*.msi
+*.log
+.env
+.env.*
+!.env.example
+
+# Local analysis tools are not part of the public project
+/analysis/

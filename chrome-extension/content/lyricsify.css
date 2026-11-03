@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Nusa Bridge Widget for Lyricsify.com
+   ========================================================================== */
+
+#nusa-floating-lyricsify {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999999;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 9999px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.2);
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  padding: 8px 18px 8px 12px;
+}
+
+#nusa-floating-lyricsify:hover {
+  background: rgba(15, 23, 42, 0.98);
+  border-color: rgba(56, 189, 248, 0.65);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 28px rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px) scale(1.02);
+}
+
+#nusa-floating-lyricsify:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.nusa-lyricsify-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nusa-lyricsify-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(56, 189, 248, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+#nusa-floating-lyricsify:hover .nusa-lyricsify-icon {
+  transform: rotate(15deg) scale(1.1);
+  background: rgba(56, 189, 248, 0.25);
+}
+
+.nusa-lyricsify-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.nusa-lyricsify-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #f8fafc;
+}
+
+.nusa-lyricsify-sub {
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 500;
+}
+
+.nusa-lyricsify-status {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #38bdf8;
+  empty-cells: hide;
+}
+
+#nusa-floating-lyricsify.success {
+  border-color: #2fd06b;
+  box-shadow: 0 0 25px rgba(47, 208, 107, 0.35);
+}
+
+#nusa-floating-lyricsify.success .nusa-lyricsify-status {
+  color: #2fd06b;
+}
+
+#nusa-floating-lyricsify.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.35);
+}
+
+#nusa-floating-lyricsify.error .nusa-lyricsify-status {
+  color: #ef4444;
+}
+
+/* ==========================================================================
+   Inline Search Result Pills on Lyricsify.com
+   ========================================================================== */
+.nusa-search-sync-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  vertical-align: middle;
+}
+
+.nusa-search-sync-btn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: rgba(56, 189, 248, 0.6);
+  transform: translateY(-1px);
+}
+
+.nusa-search-sync-btn.sent {
+  background: rgba(47, 208, 107, 0.2);
+  border-color: #2fd06b;
+  color: #2fd06b;
+}

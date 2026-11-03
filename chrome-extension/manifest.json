@@ -1,0 +1,67 @@
+{
+  "manifest_version": 3,
+  "name": "Nivumi Lyrics Bridge · Letras & Lyricsify",
+  "version": "1.2.1",
+  "description": "Extrai letras de músicas e traduções do Letras.mus.br e letras sincronizadas (LRC) do Lyricsify.com, sincronizando diretamente com o Nivumi no Windows.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Nivumi Lyrics Bridge",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs",
+    "contextMenus",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://*.letras.mus.br/*",
+    "*://*.lyricsify.com/*",
+    "*://www.youtube.com/*",
+    "*://youtube.com/*",
+    "http://127.0.0.1:48123/*"
+  ],
+  "background": {
+    "service_worker": "background/service_worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.letras.mus.br/*",
+        "*://m.letras.mus.br/*",
+        "*://*.letras.mus.br/*"
+      ],
+      "js": [
+        "content/letras.js"
+      ],
+      "css": [
+        "content/letras.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://www.lyricsify.com/*",
+        "*://lyricsify.com/*",
+        "*://*.lyricsify.com/*"
+      ],
+      "js": [
+        "content/lyricsify.js"
+      ],
+      "css": [
+        "content/lyricsify.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nivumi Lyrics Bridge</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-wrapper">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <img class="brand-icon" src="../icons/icon48.png" width="32" height="32" alt="">
+        <div class="header-info">
+          <h1 class="header-title">Nivumi Lyrics Bridge</h1>
+          <span class="header-subtitle">Letras & Lyricsify Sync</span>
+        </div>
+      </div>
+      <div class="connection-status" id="connectionStatus" title="Status de conexão com o Nivumi Desktop">
+        <span class="status-dot"></span>
+        <span class="status-text" id="statusText">Verificando…</span>
+      </div>
+    </header>
+
+    <!-- Now Playing in Windows Section -->
+    <section class="section-card now-playing-card" id="nowPlayingSection">
+      <div class="section-badge">Tocando no Windows</div>
+      <div class="media-details">
+        <div class="media-icon">🎵</div>
+        <div class="media-meta">
+          <div class="media-title" id="mediaTitle">Nenhuma música detectada</div>
+          <div class="media-artist" id="mediaArtist">Inicie uma música no Spotify, Navegador, etc.</div>
+        </div>
+      </div>
+      <div class="btn-group-now-playing" id="nowPlayingActions" style="display: none;">
+        <button class="btn-primary search-current-btn" id="searchCurrentBtn" title="Buscar letra e tradução no Letras.mus.br">
+          <span>🔎 Letras.mus.br</span>
+        </button>
+        <button class="btn-secondary search-lyricsify-btn" id="searchLyricsifyBtn" title="Buscar letra sincronizada em inglês no Lyricsify.com">
+          <span>⏱️ Lyricsify (LRC)</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Search Bar -->
+    <section class="search-section">
+      <form id="searchForm" class="search-form">
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Buscar música (ex: Tame Impala)..."
+          autocomplete="off"
+        />
+        <button type="submit" class="search-submit" title="Buscar no Letras.mus.br" id="searchLetrasBtn">
+          <span>Letras</span>
+        </button>
+        <button type="button" class="search-submit search-lyricsify-submit" title="Buscar no Lyricsify.com" id="searchLyricsifySubmit">
+          <span>LRC</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Lyrics Preview Section (if on Letras.mus.br) -->
+    <section class="section-card lyrics-card" id="lyricsSection">
+      <div class="lyrics-header">
+        <div class="lyrics-meta">
+          <h2 class="song-title" id="songTitle">Nenhuma letra aberta</h2>
+          <div class="song-artist" id="songArtist">Abra uma música no Letras.mus.br</div>
+        </div>
+        <!-- Mode Tabs -->
+        <div class="tab-pills" id="tabPills" style="display: none;">
+          <button class="tab-pill active" data-mode="original" id="tabOriginal">Original</button>
+          <button class="tab-pill" data-mode="translation" id="tabTranslation">Tradução</button>
+          <button class="tab-pill" data-mode="dual" id="tabDual">Dupla</button>
+        </div>
+      </div>
+
+      <!-- Lyrics Content Preview Container -->
+      <div class="lyrics-preview-container" id="lyricsContainer">
+        <div class="empty-hint" id="emptyHint">
+          <p>Visite qualquer página do <strong>letras.mus.br</strong> para extrair automaticamente a letra e a tradução em português.</p>
+        </div>
+        <div class="lyrics-text" id="lyricsText" style="display: none;"></div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-footer" id="actionFooter" style="display: none;">
+        <button class="btn-action btn-send" id="sendBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+          <span id="sendBtnText">Enviar ao Notch</span>
+        </button>
+        <button class="btn-action btn-copy" id="copyBtn" title="Copiar letra">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          <span id="copyBtnText">Copiar</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <span>Nivumi App · v0.2.0</span>
+      <a href="http://127.0.0.1:48123/api/status" target="_blank" class="footer-link">Porta 48123</a>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

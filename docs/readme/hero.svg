@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="440" viewBox="0 0 1280 440">
+<rect width="1280" height="440" rx="28" fill="#090b0d"/>
+<circle cx="1100" cy="50" r="250" fill="#102b1a" opacity=".5"/>
+<circle cx="1100" cy="50" r="180" fill="none" stroke="#21412b"/>
+<g transform="translate(90 75) scale(3)">
+  <path fill="#FFFFFF" d="M4 21V9a8 8 0 0 1 16 0v2l-4 3V9a4 4 0 0 0-8 0v12Zm12-2 4-3v5h-4Z"/>
+  <path fill="#30D158" d="m16 15 4-3v4l-4 3Z"/>
+</g>
+<text x="192" y="140" fill="white" font-family="Segoe UI,Arial,sans-serif" font-size="66" font-weight="700">Nivumi</text>
+<text x="92" y="245" fill="white" font-family="Segoe UI,Arial,sans-serif" font-size="43" font-weight="600">Seu dia, no seu ritmo.</text>
+<text x="94" y="295" fill="#afb6b0" font-family="Segoe UI,Arial,sans-serif" font-size="24">Música, letras e foco. Sempre por perto, no topo da tela.</text>
+<rect x="94" y="345" width="173" height="36" rx="18" fill="#153520"/>
+<text x="180" y="369" text-anchor="middle" fill="#67e58b" font-family="Segoe UI,Arial,sans-serif" font-size="16">Feito para Windows</text>
+</svg>

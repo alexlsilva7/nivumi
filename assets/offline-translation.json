@@ -1,0 +1,56 @@
+{
+  "version": "en-pt-br-v1",
+  "model_revision": "9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd",
+  "model_license": "Apache-2.0",
+  "runtime_license": "MIT",
+  "files": [
+    {
+      "name": "encoder_model_quantized.onnx",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/onnx/encoder_model_quantized.onnx",
+      "size": 52899742,
+      "sha256": "b4ddfd9338ba3d7c6b9c2d1410ed94fb7e06741226918cef6148031101bbd019"
+    },
+    {
+      "name": "decoder_model_merged_quantized.onnx",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/onnx/decoder_model_merged_quantized.onnx",
+      "size": 60212804,
+      "sha256": "b5f6d442da7fa69f9d500df90373d2fdca4f799c43696b41888353b5c3c8eb13"
+    },
+    {
+      "name": "source.spm",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/source.spm",
+      "size": 779155,
+      "sha256": "b1f89e7b05828846baf19109a61029a36838f1c4f3defc218e6aee0ee2787864"
+    },
+    {
+      "name": "target.spm",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/target.spm",
+      "size": 799001,
+      "sha256": "5e54632fe5ce5ef4108a827daccc121b7cd4ea589fbb4bd856b8dd06086166b2"
+    },
+    {
+      "name": "vocab.json",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/vocab.json",
+      "size": 1587364,
+      "sha256": "d9c3b6b01d3a9c9403befa60fd17e4a50dc4929698e3d6b9c2e7f066a9d1f041"
+    },
+    {
+      "name": "config.json",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/config.json",
+      "size": 1508,
+      "sha256": "dc4f6f9ffbbf1196ff9e8329e5666fe190aef1b1c6806649d86b962b9bde292c"
+    },
+    {
+      "name": "generation_config.json",
+      "url": "https://huggingface.co/Xenova/opus-mt-en-ROMANCE/resolve/9d2ba69ac80c8e8453c3d9a1e2323a0e7b8ca3cd/generation_config.json",
+      "size": 293,
+      "sha256": "b743baabb7da4c1a2f19fe558bd6b4c0c7c3b0762fcb5ca7a48fe5a2c2219803"
+    },
+    {
+      "name": "runtime.zip",
+      "url": "https://github.com/microsoft/onnxruntime/releases/download/v1.31.1/onnxruntime-win-x64-1.31.1.zip",
+      "size": 82929944,
+      "sha256": "5869e26bb25314375f2d5ef1877e3ea06b1543d6c710e6e4a1ec2f7177ab4b2c"
+    }
+  ]
+}
