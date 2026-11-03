@@ -20,11 +20,19 @@
 
 Controle a reprodução, acompanhe a letra e leia a tradução sem trocar de janela. O fundo acompanha as cores da capa; o painel recolhe quando você precisa de espaço.
 
+### Tela inicial · player
+
+<p align="center">
+  <img src="docs/readme/player.png" alt="Tela inicial do Nivumi reproduzindo Center Mass, de Twenty One Pilots" width="800">
+</p>
+
+### Letras e tradução
+
 <p align="center">
   <img src="docs/readme/lyrics.png" alt="Painel de música com letra e tradução sincronizadas" width="900">
 </p>
 
-<sub>Capturas do renderizador real com conteúdo de demonstração. Música, letras e tarefas nas imagens são dados sintéticos de verificação.</sub>
+<sub>Player e letras: capturas reais do aplicativo enviadas pelo usuário. As imagens de foco, hidratação e tarefas abaixo usam dados de demonstração.</sub>
 
 ## Seu dia em um painel
 
