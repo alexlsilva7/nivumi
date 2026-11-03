@@ -32,7 +32,7 @@ use windows::{
             },
             WinRT::*,
         },
-        UI::{Input::KeyboardAndMouse::*, WindowsAndMessaging::*},
+        UI::{Input::KeyboardAndMouse::*, Shell::*, WindowsAndMessaging::*},
     },
 };
 
@@ -601,6 +601,98 @@ fn get_process_name(pid: u32) -> Option<String> {
     }
 }
 
+// Unlike volume matching, activation must not accept partial process names.
+fn matches_player_window(process_name: &str, player_app: &str) -> bool {
+    let process = process_name.to_lowercase();
+    let process = process.strip_suffix(".exe").unwrap_or(&process);
+    let target = player_app.trim().to_lowercase();
+    let target = target.strip_suffix(".exe").unwrap_or(&target);
+    !process.is_empty()
+        && (process == target
+            || (process == "chrome" && target.starts_with("chrome."))
+            || (process == "msedge"
+                && (target == "microsoftedge" || target.starts_with("msedge."))))
+}
+
+/// Open the displayed track's source on the COM-initialized UI thread, which
+/// receives the user's click and can request foreground activation.
+pub fn open_media_player(player_app: &str, track_title: &str) -> windows::core::Result<()> {
+    let player_app = player_app.trim();
+    if player_app.is_empty() || player_app.contains('\0') {
+        return Err(windows::core::Error::from_hresult(E_INVALIDARG));
+    }
+    struct Search<'a> {
+        player: &'a str,
+        title: String,
+        window: Option<HWND>,
+        track_window: Option<HWND>,
+    }
+    unsafe extern "system" fn visit(hwnd: HWND, param: LPARAM) -> windows::core::BOOL {
+        let search = &mut *(param.0 as *mut Search<'_>);
+        if !IsWindowVisible(hwnd).as_bool() || GetWindow(hwnd, GW_OWNER).is_ok() {
+            return true.into();
+        }
+        let mut pid = 0;
+        GetWindowThreadProcessId(hwnd, Some(&mut pid));
+        if get_process_name(pid).is_some_and(|name| matches_player_window(&name, search.player)) {
+            search.window.get_or_insert(hwnd);
+            // Prefer the playing browser window when several windows are open.
+            let mut title = [0u16; 1024];
+            let len = GetWindowTextW(hwnd, &mut title) as usize;
+            if !search.title.is_empty()
+                && String::from_utf16_lossy(&title[..len])
+                    .to_lowercase()
+                    .contains(&search.title)
+            {
+                search.track_window.get_or_insert(hwnd);
+            }
+        }
+        true.into()
+    }
+    let mut search = Search {
+        player: player_app,
+        title: track_title.trim().to_lowercase(),
+        window: None,
+        track_window: None,
+    };
+    unsafe {
+        EnumWindows(Some(visit), LPARAM(&mut search as *mut _ as isize))?;
+        if let Some(hwnd) = search.track_window.or(search.window) {
+            if IsIconic(hwnd).as_bool() {
+                let _ = ShowWindowAsync(hwnd, SW_RESTORE);
+            }
+            return if SetForegroundWindow(hwnd).as_bool() {
+                Ok(())
+            } else {
+                Err(windows::core::Error::from_hresult(E_FAIL))
+            };
+        }
+        // Store apps may be suspended or hosted by ApplicationFrameHost.
+        let app_id = windows::core::HSTRING::from(player_app);
+        if player_app.contains('!') {
+            let activation: IApplicationActivationManager =
+                CoCreateInstance(&ApplicationActivationManager, None, CLSCTX_ALL)?;
+            activation.ActivateApplication(&app_id, windows::core::PCWSTR::null(), AO_NOERRORUI)?;
+            return Ok(());
+        }
+        // Registered desktop apps may keep playing with their window in the tray.
+        let target = windows::core::HSTRING::from(format!("shell:AppsFolder\\{player_app}"));
+        let result = ShellExecuteW(
+            None,
+            w!("open"),
+            &target,
+            windows::core::PCWSTR::null(),
+            windows::core::PCWSTR::null(),
+            SW_SHOWNORMAL,
+        );
+        if result.0 as isize > 32 {
+            Ok(())
+        } else {
+            Err(windows::core::Error::from_hresult(E_FAIL))
+        }
+    }
+}
+
 pub fn matches_player_app(
     process_name: Option<&str>,
     session_id: Option<&str>,
@@ -1008,6 +1100,45 @@ fn fetch_lyrics(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn player_window_matching_is_strict_and_supports_browser_profile_ids() {
+        for (process, source) in [
+            ("Spotify.exe", "spotify.EXE"),
+            ("vlc.exe", "VLC"),
+            ("chrome.exe", "Chrome"),
+            ("chrome.exe", "Chrome.Profile 1"),
+            ("msedge.exe", "MSEdge.Profile 1"),
+        ] {
+            assert!(
+                matches_player_window(process, source),
+                "{process}: {source}"
+            );
+        }
+        for (process, source) in [
+            ("spotify-helper.exe", "Spotify.exe"),
+            ("chromedriver.exe", "Chrome"),
+            ("chrome.exe", "ChromeOther"),
+            ("vlc.exe", "SpotifyAB.SpotifyMusic_zpdnekdrzrea0!Spotify"),
+            ("Spotify.exe", ""),
+            ("", "Spotify.exe"),
+        ] {
+            assert!(
+                !matches_player_window(process, source),
+                "{process}: {source}"
+            );
+        }
+    }
+
+    #[test]
+    fn missing_player_identity_is_rejected_before_activation() {
+        for source in ["", "   ", "Spotify\0.exe"] {
+            assert_eq!(
+                open_media_player(source, "Song").unwrap_err().code(),
+                E_INVALIDARG
+            );
+        }
+    }
 
     fn media_with_cover(title: &str, cover: &[u8]) -> MediaSnapshot {
         MediaSnapshot {

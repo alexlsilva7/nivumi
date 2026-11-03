@@ -73,6 +73,8 @@ Para testes isolados, defina `NIVUMI_DATA_DIR` somente no processo de teste ante
 
 Em **Configurações → Busca de letras**, adicione termos extras para ignorar nos títulos, uma expressão por linha. A lista começa com `(Live In Tampa 2022)` e pode ser editada ou esvaziada. A comparação ignora maiúsculas e minúsculas; os filtros de vídeo já existentes continuam ativos. Ao salvar, a busca da música atual é refeita e os títulos exibidos pelo player são preservados.
 
+Nas telas **Música** e **Letras**, clique na capa, no título ou no artista para abrir o aplicativo que fornece a faixa atual. Janelas minimizadas são restauradas. Para mídia do navegador, o Nivumi abre a janela do navegador, dando preferência àquela cujo título contém o nome da faixa; não troca a aba ativa.
+
 No notch expandido, nos modos **Letra completa** e **Tradução completa**, use a roda do mouse sobre o texto para rolar a letra. Fora da área do texto, a roda continua navegando entre páginas. Shift+roda ou Alt+roda também permitem rolar as letras, inclusive nos modos sincronizados.
 
 Informações dependentes do hardware, como brilho e bateria Bluetooth, não devem ser simuladas quando o driver não as fornece. A presença de uma configuração não é comprovação de suporte ao hardware.

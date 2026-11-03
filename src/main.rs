@@ -106,7 +106,7 @@ enum Action {
     LyricsScroll(i32),
     ReloadLetras,
     CopyLyricsForAi,
-    TrackInfo,
+    OpenMediaPlayer,
     Close,
     Exit,
 }
@@ -1356,6 +1356,27 @@ impl App {
             action,
             label: label.into(),
         });
+    }
+    fn media_player_hits(&mut self, ox: f32, title_width: f32) {
+        if self.media.title.is_empty() || self.media.player.trim().is_empty() {
+            return;
+        }
+        let open = self.tr("Abrir player de música", "Open music player");
+        let label = if self.media.album.is_empty() {
+            open.to_string()
+        } else {
+            format!(
+                "{open} · {}{}",
+                self.tr("Álbum: ", "Album: "),
+                self.media.album
+            )
+        };
+        self.hit((ox + 22., 12., 62., 62.), &label, Action::OpenMediaPlayer);
+        self.hit(
+            (ox + 100., 32., title_width, 44.),
+            &label,
+            Action::OpenMediaPlayer,
+        );
     }
     unsafe fn paint(&mut self) {
         if self.tray_hidden {
@@ -2614,20 +2635,7 @@ impl App {
             artist_offset,
             artist_scrolling,
         );
-        // Track / Album Tooltip on Title area
-        if !self.media.title.is_empty() {
-            let album_tip = if !self.media.album.is_empty() {
-                let prefix = self.tr("Álbum: ", "Album: ");
-                format!("{prefix}{}", self.media.album)
-            } else {
-                self.tr("Álbum desconhecido", "Unknown album").to_string()
-            };
-            self.hit(
-                (ox + 100., 32., layout.title_width, 44.),
-                &album_tip,
-                Action::TrackInfo,
-            );
-        }
+        self.media_player_hits(ox, layout.title_width);
         // Lateral Navigation Arrows
 
         // Progress bar and timestamps
@@ -5256,7 +5264,22 @@ impl App {
                     self.external_scroll = self.external_scroll.saturating_add(2).min(max_scroll);
                 }
             }
-            Action::TrackInfo => {}
+            Action::OpenMediaPlayer => {
+                if !self.media.title.is_empty() && !self.media.player.trim().is_empty() {
+                    if let Err(error) = open_media_player(&self.media.player, &self.media.title) {
+                        log(&format!("Open media player: {error}"));
+                        self.toast = Some((
+                            self.tr(
+                                "Não foi possível abrir o player de música",
+                                "Could not open the music player",
+                            )
+                            .to_string(),
+                            Instant::now(),
+                        ));
+                        self.animate();
+                    }
+                }
+            }
             Action::Close => {
                 self.hide_to_tray();
             }
@@ -6513,7 +6536,17 @@ unsafe extern "system" fn wndproc(hwnd: HWND, msg: u32, wp: WPARAM, lp: LPARAM) 
                     SetCursor(Some(cursor));
                 }
                 LRESULT(1)
-            } else if app.is_volume_hit(x, y) || app.volume_dragging {
+            } else if app.is_volume_hit(x, y)
+                || app.volume_dragging
+                || (app.expanded
+                    && app.hits.iter().any(|hit| {
+                        matches!(hit.action, Action::OpenMediaPlayer)
+                            && x >= hit.rect.0
+                            && x <= hit.rect.0 + hit.rect.2
+                            && y >= hit.rect.1
+                            && y <= hit.rect.1 + hit.rect.3
+                    }))
+            {
                 if let Ok(cursor) = LoadCursorW(None, IDC_HAND) {
                     SetCursor(Some(cursor));
                 }
@@ -8295,25 +8328,45 @@ mod tests {
     }
 
     #[test]
-    fn track_info_action_and_album_tooltip() {
+    fn music_artwork_and_metadata_open_the_source_player_in_both_layouts() {
         let mut app = test_app();
         app.media.title = "Bohemian Rhapsody".into();
         app.media.artist = "Queen".into();
         app.media.album = "A Night at the Opera".into();
-
-        // Hit testing for track info
-        let prefix = app.tr("Álbum: ", "Album: ");
-        let expected_label = format!("{prefix}A Night at the Opera");
-        app.hit((100., 32., 200., 44.), &expected_label, Action::TrackInfo);
-
-        let hit = app.hits.last().unwrap();
-        assert_eq!(hit.label, expected_label);
-        assert!(matches!(hit.action, Action::TrackInfo));
-
-        // Action::TrackInfo does not mutate app state or crash
-        unsafe {
-            app.action(Action::TrackInfo);
+        app.media.player = "Spotify.exe".into();
+        app.content_offset_y = 9.;
+        for amount in [0., 0.5, 1.] {
+            app.hits.clear();
+            let layout = PlayerLayout::new(80., amount);
+            app.media_player_hits(80., layout.title_width);
+            assert_eq!(app.hits.len(), 2);
+            for hit in &app.hits {
+                assert!(matches!(hit.action, Action::OpenMediaPlayer));
+                assert!(hit
+                    .label
+                    .contains(app.tr("Abrir player de música", "Open music player")));
+                assert!(hit.label.contains("A Night at the Opera"));
+                assert!(hit.rect.1 + hit.rect.3 < layout.seek.1 + app.content_offset_y);
+            }
+            assert_eq!(app.hits[0].rect, (102., 21., 62., 62.));
+            assert_eq!(app.hits[1].rect, (180., 41., layout.title_width, 44.));
         }
+    }
+
+    #[test]
+    fn music_has_no_launch_target_without_track_or_source() {
+        let mut app = test_app();
+        app.media.title = "Song".into();
+        app.media_player_hits(0., 270.);
+        assert!(app.hits.is_empty());
+        app.media.title.clear();
+        app.media.player = "Spotify.exe".into();
+        app.media_player_hits(0., 270.);
+        assert!(app.hits.is_empty());
+        app.media.title = "Song".into();
+        app.media_player_hits(0., 270.);
+        assert_eq!(app.hits.len(), 2);
+        assert!(!app.hits[0].label.contains("Álbum"));
     }
 
     #[test]
