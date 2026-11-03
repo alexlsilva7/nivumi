@@ -87,7 +87,9 @@ A Prateleira recebe arquivos e imagens de capturas de tela. Arraste arquivos par
 
 ### Com instalador
 
-Use o arquivo **`NivumiSetup.exe`** gerado em `dist/`. A instalação é por usuário e não exige administrador.
+[**Baixar Nivumi para Windows**](https://github.com/alexlsilva7/nivumi/releases/latest/download/NivumiSetup.exe)
+
+Use o arquivo **`NivumiSetup.exe`** da release. A instalação é por usuário e não exige administrador.
 
 1. Execute o instalador e escolha a pasta.
 2. Mantenha marcada a opção de atalho na Área de Trabalho, se desejar.
@@ -97,9 +99,11 @@ A fixação na barra de tarefas exige uma ação sua. A inicialização com Wind
 
 ### Sem instalar
 
+[**Baixar versão portátil**](https://github.com/alexlsilva7/nivumi/releases/latest/download/Nivumi-Portable.zip)
+
 Extraia **`Nivumi-Portable.zip`** em uma pasta com permissão de escrita e abra **`nivumi.exe`**. O marcador `portable.flag` mantém os dados na pasta `data` ao lado do executável.
 
-> Os pacotes são gerados localmente. Este README não aponta para uma release pública ainda.
+Os pacotes e seus hashes SHA-256 estão disponíveis em [Releases](https://github.com/alexlsilva7/nivumi/releases).
 
 ## A letra no tempo certo
 
